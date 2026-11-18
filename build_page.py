@@ -275,6 +275,62 @@ def draw_viz(d, viz, x, y, w):
     return 0
 
 
+
+# ---------------------------------------------------------------- banners
+def draw_banner(d, x, y, w, spec, h=26):
+    """A coloured banner strip with a simple motif and one big figure."""
+    bg, fg, big, motif = spec
+    d.rectangle([x, y, x + w, y + h], fill=bg)
+    mx0 = x + 8
+    cy = y + h / 2
+    if motif == "bars":
+        for i, bh in enumerate([7, 11, 16, 22]):
+            bx = mx0 + 4 + i * 12
+            d.rectangle([bx, cy + 11 - bh, bx + 8, cy + 11], fill=fg)
+    elif motif == "dots":
+        d.ellipse([mx0 + 16, cy - 8, mx0 + 32, cy + 8], outline=fg, width=2)
+        for dx, dy, r in [(6, -9, 3), (40, -10, 3), (44, 6, 3), (10, 10, 3),
+                          (26, -11, 2), (26, 10, 2)]:
+            d.ellipse([mx0 + dx - r, cy + dy - r, mx0 + dx + r, cy + dy + r],
+                      fill=fg)
+    elif motif == "rash":
+        pts = [(4, 5), (16, 12), (28, 4), (40, 10), (50, 5), (10, 20),
+               (24, 22), (38, 19), (50, 22), (56, 13), (20, 8), (44, 25)]
+        for dx, dy in pts:
+            d.ellipse([x + dx, y + dy, x + dx + 4, y + dy + 4], fill=fg)
+    elif motif == "wave":
+        for k in range(3):
+            yy = y + 8 + k * 7
+            pts = [(x + 6 + t, yy + 3 * math.sin(t / 6.0 + k)) for t in range(0, 50, 3)]
+            d.line(pts, fill=fg, width=2)
+    elif motif == "plane":
+        d.polygon([(mx0 + 2, cy + 2), (mx0 + 30, cy - 8), (mx0 + 52, cy - 8),
+                   (mx0 + 38, cy + 1), (mx0 + 46, cy + 9), (mx0 + 38, cy + 9),
+                   (mx0 + 30, cy + 3), (mx0 + 10, cy + 9)], fill=fg)
+    elif motif == "crowd":
+        for r_i, yy in enumerate([cy - 10, cy + 1]):
+            for i in range(5):
+                hx = mx0 + 2 + i * 11 + (5 if r_i else 0)
+                d.ellipse([hx, yy, hx + 6, yy + 6], fill=fg)
+                d.pieslice([hx - 2, yy + 5, hx + 8, yy + 11], 180, 360, fill=fg)
+    elif motif == "globe":
+        d.ellipse([mx0 + 12, cy - 12, mx0 + 36, cy + 12], outline=fg, width=2)
+        d.ellipse([mx0 + 19, cy - 12, mx0 + 29, cy + 12], outline=fg, width=1)
+        d.line([(mx0 + 12, cy), (mx0 + 36, cy)], fill=fg, width=1)
+    elif motif == "spiral":
+        for r in [3, 6, 9, 12]:
+            d.arc([mx0 + 24 - r, cy - r, mx0 + 24 + r, cy + r],
+                  start=40, end=330, fill=fg, width=2)
+    elif motif == "chart":
+        pts = [(mx0 + 2, cy - 8), (mx0 + 16, cy - 4), (mx0 + 28, cy - 6),
+               (mx0 + 40, cy + 2), (mx0 + 52, cy + 9)]
+        d.line(pts, fill=fg, width=2)
+        d.polygon([(mx0 + 52, cy + 9), (mx0 + 44, cy + 8), (mx0 + 50, cy + 1)], fill=fg)
+    f_big = F(SERIF_B, 16)
+    if d.textlength(big, font=f_big) > w - 84:
+        f_big = F(SERIF_B, 13)
+    d.text((x + 74, cy - 9), big, font=f_big, fill=fg)
+
 # ---------------------------------------------------------------- layout
 def chip(d, x, y, num, color, w=26, h=18, fs=11):
     d.rectangle([x, y, x + w, y + h], fill=color)
@@ -304,7 +360,7 @@ def main():
     d.rectangle([MARGIN, 24, W - MARGIN, 100], fill=NAVY)
     f_furn = F(SANS_B, 11)
     d.text((MARGIN + 14, 33), "THE DAY IN WORLD NEWS", font=f_furn, fill=GOLD)
-    right = "33 STORIES · 6 CONTINENTS · ONE PAGE"
+    right = "30 STORIES · 6 CONTINENTS · ONE PAGE"
     d.text((W - MARGIN - 14 - d.textlength(right, font=f_furn), 33), right,
            font=f_furn, fill=GOLD)
     f_date = F(SERIF_B, 37)
@@ -329,50 +385,31 @@ def main():
         x = xs[i]
         img.paste(TILES[tile](colw, 106, cap), (x, ly))
         y = story_head(d, x, ly + 112, i + 1, region, topic, big=True)
-        y = draw_lines(d, wrap(head, F(SERIF_B, 17), colw, d)[:3], x, y,
-                       F(SERIF_B, 17), INK, 20)
+        y = draw_lines(d, wrap(head, F(SERIF_B, 18), colw, d)[:3], x, y,
+                       F(SERIF_B, 18), INK, 21)
         y += 2
-        draw_lines(d, wrap(summ, F(SERIF, 10), colw, d)[:5], x, y,
-                   F(SERIF, 10), (40, 38, 34), 13.5)
+        draw_lines(d, wrap(summ, F(SERIF, 11), colw, d)[:4], x, y,
+                   F(SERIF, 11), (40, 38, 34), 14)
 
-    # ---- day in numbers (one line)
-    ny = 414
-    d.line([(MARGIN, ny), (W - MARGIN, ny)], fill=RULE, width=2)
-    f_lab, f_fig = F(SANS_B, 11), F(SERIF_B, 13)
-    parts = ["THE DAY IN NUMBERS —  ", "66 of 120", " Kahana votes  ·  ",
-             "$130bn", " Nvidia guide  ·  ", "315 km/h", " Xavier gusts  ·  ",
-             "11,000+", " Ebola cases"]
-    widths = [d.textlength(p, font=f_lab if j % 2 == 0 and j == 0 else f_fig if j % 2 == 1 else f_lab)
-              for j, p in enumerate(parts)]
-    total = sum(widths)
-    x = (W - total) / 2
-    for j, p in enumerate(parts):
-        fnt = f_fig if j % 2 == 1 else f_lab
-        d.text((x, ny + 7), p, font=fnt, fill=NAVY if j % 2 == 1 or j == 0 else GRAY)
-        x += widths[j]
-    d.line([(MARGIN, ny + 28), (W - MARGIN, ny + 28)], fill=RULE, width=1)
-
-    # ---- secondaries
-    sy = 452
-    rowh = 70
-    for i, (region, topic, head, summ, lat, lon, viz) in enumerate(D.SECONDARIES):
+    # ---- secondaries (banner + headline + summary)
+    sy = 396
+    rowh = 114
+    for i, (region, topic, head, summ, lat, lon, banner) in enumerate(D.SECONDARIES):
         cx = xs[i % 3]
         cy = sy + (i // 3) * rowh
-        y = story_head(d, cx, cy, i + 4, region, topic)
-        y = draw_lines(d, wrap(head, F(SERIF_B, 13), colw, d)[:2], cx, y,
-                       F(SERIF_B, 13), INK, 16)
+        draw_banner(d, cx, cy, colw, banner)
+        y = story_head(d, cx, cy + 31, i + 4, region, topic)
+        y = draw_lines(d, wrap(head, F(SERIF_B, 14), colw, d)[:2], cx, y,
+                       F(SERIF_B, 14), INK, 17)
         y += 1
-        maxl = 1 if viz else 2
-        y = draw_lines(d, wrap(summ, F(SERIF, 10), colw, d)[:maxl], cx, y,
-                       F(SERIF, 10), (40, 38, 34), 12.5)
-        if viz:
-            draw_viz(d, viz, cx, y + 2, colw)
+        draw_lines(d, wrap(summ, F(SERIF, 11), colw, d)[:2], cx, y,
+                   F(SERIF, 11), (40, 38, 34), 14)
 
     # ---- map + markets
-    by = 672
+    by = 746
     d.text((MARGIN, by), "THE WORLD IN ONE MAP", font=F(SANS_B, 10), fill=NAVY)
     d.text((492, by), "MARKETS — WEDNESDAY CLOSE", font=F(SANS_B, 10), fill=NAVY)
-    mapw, maph = 452, 132
+    mapw, maph = 452, 88
     map_img, proj = build_map(mapw, maph)
     img.paste(map_img, (MARGIN, by + 16))
     d = ImageDraw.Draw(img)
@@ -393,13 +430,13 @@ def main():
         f_p = F(SANS_B, 9)
         d.text((px - d.textlength(t, font=f_p) / 2, py - 5.5), t, font=f_p,
                fill=(255, 255, 255))
-    lx, ly2 = MARGIN, by + 16 + maph + 6
+    lx, ly2 = MARGIN, by + 16 + maph + 5
     for i, key in enumerate(["NA", "SA", "EU", "AF", "AS", "OC"]):
         name, color = D.REGIONS[key]
-        cx = lx + (i % 3) * 152
-        cy = ly2 + (i // 3) * 14
+        cx = lx + i * 75
+        cy = ly2
         d.ellipse([cx, cy + 2, cx + 8, cy + 10], fill=color)
-        d.text((cx + 12, cy), name.title(), font=F(SANS, 9), fill=INK)
+        d.text((cx + 12, cy), name.title(), font=F(SANS, 8.5), fill=INK)
     mx = 492
     mcolw = (W - MARGIN - mx) // 2
     for i, (name, level, chg, down) in enumerate(D.MARKETS):
@@ -414,15 +451,15 @@ def main():
            font=F(SANS, 9), fill=GRAY)
 
     # ---- also list
-    ay = 866
+    ay = 894
     d.line([(MARGIN, ay), (W - MARGIN, ay)], fill=RULE, width=2)
-    d.text((MARGIN, ay + 6), "ALSO ON WEDNESDAY — 21 MORE STORIES",
+    d.text((MARGIN, ay + 6), f"ALSO ON WEDNESDAY — {len(D.ALSO)} MORE STORIES",
            font=F(SANS_B, 11), fill=NAVY)
     iy = ay + 26
     f_lead, f_cl = F(SERIF_B, 10), F(SERIF, 10)
     for i, (region, lead, clause, lat, lon) in enumerate(D.ALSO):
         cx = xs[i % 3]
-        cy = iy + (i // 3) * 14.5
+        cy = iy + (i // 3) * 11.5
         _, color = D.REGIONS[region]
         d.text((cx, cy), f"{i + 13}.", font=F(SANS_B, 9), fill=color)
         tx = cx + 24
@@ -436,8 +473,8 @@ def main():
     foot = ("Every story happened or was first reported on Wednesday 18 November 2026. "
             "Disputed claims are attributed. Sources: Reuters · AP · AFP · BBC · "
             "Al Jazeera · UN · WHO · Der Spiegel · Le Monde. Original drawings.")
-    f_f = F(SERIF_I, 9)
-    d.text(((W - d.textlength(foot, font=f_f)) / 2, fy + 6), foot, font=f_f, fill=GRAY)
+    f_f = F(SERIF_I, 8.5)
+    d.text(((W - d.textlength(foot, font=f_f)) / 2, fy + 5), foot, font=f_f, fill=GRAY)
 
     out = os.path.join(HERE, "assets", "entry.png")
     img.save(out, optimize=True)

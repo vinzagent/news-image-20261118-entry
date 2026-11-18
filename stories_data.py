@@ -17,9 +17,8 @@ REGIONS = {
 LEADS = [
     ("AS", "WAR & SECURITY", "US and Iran Trade Fire Over the Gulf",
      "US fighter jets struck an IRGC missile launch site on Iran's Qeshm Island; "
-     "Iran answered with drones on a US radar site in Bahrain — its third attack in "
-     "a week — and on Kuwait's Ali al-Salem base. Hormuz shipping runs at just 43% "
-     "of normal traffic.",
+     "Iran answered with drones on a US radar site in Bahrain — its third attack "
+     "in a week.",
      26.8, 55.9, "gulf", "QESHM ISLAND · STRAIT OF HORMUZ"),
     ("EU", "WAR & SECURITY", "Kerch Bridge Span Falls Into the Sea",
      "A Ukrainian drone-and-missile strike, prepared over weeks and carried out in "
@@ -40,39 +39,39 @@ SECONDARIES = [
     ("NA", "ECONOMY & TECH", "Nvidia Beats Forecasts, Guides $130bn",
      "A very solid quarter; Q4 revenue forecast at $130 billion. The board ruled "
      "out founder Jensen Huang's return as CEO.",
-     37.4, -121.9, None),
+     37.4, -121.9, ((16, 34, 24), (240, 200, 90), "$130BN GUIDE", "bars")),
     ("AS", "POLITICS", "Knesset Elects Kahana Speaker, 66 of 120",
      "Matan Kahana, an Eisenkot ally, won with backing from Arab parties — a "
      "setback for the Netanyahu camp.",
-     31.8, 35.2, ("fillbar", 66, 120, "66 OF 120 SEATS")),
+     31.8, 35.2, ((24, 40, 80), (255, 250, 240), "66 OF 120 SEATS", "crowd")),
     ("AF", "HEALTH", "Ebola Cases More Than Double Past 11,000",
      "DR Congo's outbreak passes 11,000 cases and 5,400 deaths in three months, "
      "the UN said. Under-fives are hit hardest.",
-     0.5, 29.5, None),
+     0.5, 29.5, ((122, 28, 24), (255, 250, 240), "11,000+ CASES", "dots")),
     ("NA", "HEALTH", "US Loses Measles-Free Status After 26 Years",
      "A record 5,400+ cases and 10 deaths — a first since the early 1990s — "
      "ended US measles elimination status.",
-     38.9, -77.0, None),
+     38.9, -77.0, ((250, 243, 230), (150, 30, 25), "5,400+ CASES", "rash")),
     ("OC", "CLIMATE", "Cyclone Xavier Hits the Cooks at Category 5",
      "Gusts reached 315 km/h over Manihiki as Xavier crossed the Northern Cook "
      "Islands at Category 5.",
-     -10.4, -161.0, ("gauge", 315 / 320, "315 KM/H GUSTS")),
+     -10.4, -161.0, ((14, 90, 110), (255, 250, 240), "315 KM/H GUSTS", "spiral")),
     ("GL", "MARKETS", "Stocks Slide as Gulf Fire Rattles Markets",
      "The S&P 500 fell 1.03% to 7,340.53; the VIX jumped 11% to 25.46. Brent "
      "$91.55; gold fell 2.31% to $3,775.",
-     40.7, -74.0, None),
+     40.7, -74.0, ((30, 30, 36), (255, 120, 110), "S&P 500 -1.03%", "chart")),
     ("NA", "POLITICS", "Peltola Flips Alaska; Senate Goes 56–44",
      "Mary Peltola beat incumbent Dan Sullivan, capping the midterm rout: "
      "Democrats hold the Senate 56–44 from January.",
-     58.3, -134.4, ("bars", [("DEM", 56, (29, 111, 184)), ("REP", 44, (178, 34, 52))], 100)),
+     58.3, -134.4, ((29, 80, 140), (255, 250, 240), "SENATE 56-44", "bars")),
     ("AS", "POLITICS", "Mongolia's President to Quit in Rail Scandal",
      "President Khurelsukh announced his resignation over $25m railway-contract "
      "accusations he denies.",
-     47.9, 106.9, None),
+     47.9, 106.9, ((150, 90, 20), (255, 250, 240), "$25M SCANDAL", "globe")),
     ("AS", "POLITICS", "Trump Opens Asia Trip With Manila Deals",
      "Trump met Philippine and Quad partners, announced a 'very large' "
      "Philippines deal and a zero-tariff Thailand pact.",
-     14.6, 121.0, None),
+     14.6, 121.0, ((70, 40, 110), (255, 250, 240), "MANILA DEALS", "globe")),
 ]
 
 # By the Numbers: (figure, caption)
@@ -92,7 +91,6 @@ DECK = ("Strikes in the Gulf and on the Kerch Bridge, a three-way summit in Shen
 # Also-list: (region, lead-in, clause, lat, lon)
 ALSO = [
     ("NA", "Waymo halts freeway robotaxis", "DMV cites zone entries", 37.8, -122.4),
-    ("NA", "Anthropic to list on Nasdaq", "debut set for Nov 19", 37.7, -122.3),
     ("NA", "27 years for Iran-backed plot", "Merchant sentenced in NY", 40.8, -73.9),
     ("SA", "Amazon group emerges hungry", "20 Awá leave isolation", -4.5, -45.5),
     ("SA", "Argentina rout Costa Rica 7–0", "three players score twice", -34.6, -58.4),
@@ -104,9 +102,7 @@ ALSO = [
     ("EU", "England beat Spain 3–2", "ends a 43-match unbeaten run", 40.4, -3.7),
     ("AF", "Uganda targets $2.97bn rail", "272 km Kenya line", 0.3, 32.6),
     ("AF", "Africa loses $125bn a year", "AU counts illicit flows", 9.0, 38.7),
-    ("AF", "Cassava seeks $1bn for AI centres", "GPU build-out", -17.8, 31.1),
     ("AF", "Fela Kuti enters Rock Hall", "first African inductee", 6.5, 3.4),
-    ("AS", "ASEAN sees sea code by next year", "talks 80% agreed", -6.2, 106.8),
     ("AS", "An-12 crash kills 19 in Siberia", "military transport down", 55.3, 86.1),
     ("AS", "World Court to rule on Myanmar", "Rohingya verdict Thu", 16.8, 96.2),
     ("AS", "India beat Pakistan 2–1", "record 10th SAFF title, Dhaka", 23.8, 90.4),
